@@ -4,9 +4,9 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /group\.png
-  static_files: static/group.png
-  upload: static/group.png
+- url: /humans\.png
+  static_files: static/humans.png
+  upload: static/humans.png
 
 - url: /
   static_files: static/index.html
@@ -24,9 +24,9 @@ handlers:
   static_files: static/script.js
   upload: static/script.js
 
-- url: /gear\.png
-  static_files: static/gear.png
-  upload: static/gear.png
+- url: /(light|dark)-gear\.png
+  static_files: static/\1-gear.png
+  upload: static/(light|dark)-gear.png
 
 - url: /api/(question|answers)
   script: api.py

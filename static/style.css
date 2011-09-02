@@ -1,4 +1,5 @@
 body {
+    color: #2d2d2d;
     font-family: sans-serif;
     margin: 0px;
 }
@@ -12,7 +13,7 @@ body {
 
 #settings {
     background-color: #2d2d2d;
-    background-image: url('gear.png');
+    background-image: url('light-gear.png');
     background-position: right center;
     background-repeat: no-repeat;
     border: none;
@@ -22,18 +23,52 @@ body {
     font-size: 12px;
     height: 29px;
     line-height: 29px;
-    margin-right: 5px;
     padding-left: 5px;
+    position: absolute;
+    right: 5px;
     text-align: left;
     width: 80px;
+    z-index: 100;
 }
 
 #settings:hover {
     background-color: #4d4d4d;
 }
 
+#menu {
+    background-color: #ffffff;
+    border: 1px solid #c0c0c0;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    height: 74px;
+    position: absolute;
+    right: 4px;
+    top: 28px;
+    visibility: hidden;
+    width: 160px;
+    z-index: 90;
+}
+
+#access, #secret {
+    border-color: #c0c0c0 #d9d9d9 #d9d9d9 #d9d9d9;
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    font-size: 12px;
+    height: 18px;
+    margin: 10px auto 0px auto;
+    outline: none;
+    width: 140px;
+}
+
+#access:hover, #secret:hover {
+    border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
+}
+
+#access:focus, #secret:focus {
+    border-color: #4d90fe;
+}
+
 h1 {
-    color: #2d2d2d;
     font-family: 'Love Ya Like A Sister', cursive;
     font-size: 100px;
     font-weight: normal;
@@ -83,13 +118,11 @@ h1 {
 #search:hover, #lucky:hover {
     border-color: #c0c0c0;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-    color: #2d2d2d;
 }
 
 #contact {
     bottom: 0px;
-    color: #2d2d2d;
-    font-size: 10px;
+    font-size: 12px;
     left: 0px;
     margin: 0px;
     padding: 5px;
