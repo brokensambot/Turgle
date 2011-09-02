@@ -1,5 +1,9 @@
 $(document).ready(function() {
     $('#settings').click(showMenu);
+    $('#access').click(clearAccess);
+    $('#secret').click(clearSecret);
+    $('#access').focusout(fillAccess);
+    $('#secret').focusout(fillSecret);
 });
 
 function showMenu(e) {
@@ -17,7 +21,7 @@ function showMenu(e) {
 function hideMenu(e) {
     var node = e.target;
     while(node != document) {
-        if (node == $('#access')[0] || node == $('#secret')[0])
+        if (node == $('#menu')[0])
             return;
         node = node.parentNode;
     }
@@ -29,4 +33,36 @@ function hideMenu(e) {
     $('#menu').css({'visibility':'hidden'});
     $(document).unbind();
     setTimeout(function() {$('#settings').click(showMenu)}, 0);
+}
+
+function clearAccess(e) {
+    var node = $(e.target);
+    if (node.val() == 'AWS Access Key') {
+        node.val('');
+        node.css({'color':'#2d2d2d'});
+    }
+}
+
+function clearSecret(e) {
+    var node = $(e.target);
+    if (node.val() == 'AWS Secret Key') {
+        node.val('');
+        node.css({'color':'#2d2d2d'});
+    }
+}
+
+function fillAccess(e) {
+    var node = $(e.target);
+    if (node.val() == '') {
+        node.val('AWS Access Key');
+        node.css({'color':'#c0c0c0'});
+    }
+}
+
+function fillSecret(e) {
+    var node = $(e.target);
+    if (node.val() == '') {
+        node.val('AWS Secret Key');
+        node.css({'color':'#c0c0c0'});
+    }
 }
