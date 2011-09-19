@@ -11,14 +11,14 @@ Format: JSON
 Method: POST  
 Parameters:
 
-+ ** accessKey ** - (required) Your Amazon Web Services access key.
-+ ** secretKey ** - (required) Your Amazon Web Services secret key.
-+ ** answers ** - (required) The number of answers you require (not guaranteed to be unique).
-+ ** text ** - (required) The question being asked.
++ **accessKey** - (required) Your Amazon Web Services access key.
++ **secretKey** - (required) Your Amazon Web Services secret key.
++ **answers** - (required) The number of answers you require (not guaranteed to be unique).
++ **text** - (required) The question being asked.
 
 Response:  
 ```
-{ "HITId": "" }
+{"HITId": "GBHZVQX3EHXZ2AYDY2T0"}
 ```
 
 ### Get Answers
@@ -28,11 +28,11 @@ Format: JSON
 Method: GET  
 Parameters:
 
-+ ** accessKey ** - (required) Your Amazon Web Services access key.
-+ ** secretKey ** - (required) Your Amazon Web Services secret key.
-+ ** HITId ** - (required) The HIT Id associated with the question that was asked (only valid for questions asked with the Turgle API).
++ **accessKey** - (required) Your Amazon Web Services access key.
++ **secretKey** - (required) Your Amazon Web Services secret key.
++ **HITId** - (required) The HIT Id associated with the question that was asked (only valid for questions asked with the Turgle API).
 
 Response:  
 ```
-{ "": "" }
+{"answers": ["Red", "Green", "Blue"]}
 ```
