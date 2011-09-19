@@ -101,7 +101,7 @@ function startSearch(e) {
         answersLimit = 1;
     else
         answersLimit = 10;
-    postQuestion();
+    askQuestion();
     timer = setInterval(function() {updateSearch();}, 5000);
 }
 
@@ -116,14 +116,18 @@ function updateSearch() {
     }
 }
 
-function postQuestion() {
-    /* Post question here. */
+function askQuestion() {
+    /* Ask question here. */
 }
 
 function getAnswers() {
     /* Get answers here. */
     
     /* Begin testing. */
-    return ['White', 'Pink', 'Red', 'Orange', 'Brown', 'Yellow', 'Gray', 'Green', 'Cyan', 'Blue'];
+    if (answersLimit == 1) {
+        return ['White'];
+    } else {
+        return ['White', 'Pink', 'Red', 'Orange', 'Brown', 'Yellow', 'Gray', 'Green', 'Cyan', 'Blue'];
+    }
     /* End testing. */
 }

@@ -52,3 +52,4 @@ handlers:
 
 - url: /api/(question|answers)
   script: api.py
+  secure: always
