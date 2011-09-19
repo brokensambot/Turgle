@@ -30,7 +30,7 @@ Parameters:
 
 + **accessKey** - (required) Your Amazon Web Services access key.
 + **secretKey** - (required) Your Amazon Web Services secret key.
-+ **HITId** - (required) The HIT Id associated with the question that was asked (only valid for questions asked with the Turgle API).
++ **HITId** - (required) The HIT Id associated with the question that was asked (only valid for questions asked via the Turgle API).
 
 Response:  
 ```

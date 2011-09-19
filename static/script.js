@@ -21,6 +21,7 @@
 //
 
 var answersLimit;
+var HITId;
 var timer;
 
 $(document).ready(function() {
@@ -102,32 +103,23 @@ function startSearch(e) {
     else
         answersLimit = 10;
     askQuestion();
-    timer = setInterval(function() {updateSearch();}, 5000);
-}
-
-function updateSearch() {
-    var answers = getAnswers();
-    if (answers.length == answersLimit) {
-        clearInterval(timer);
-    }
-    for (var i = $('.answer').length; i < answers.length; i++) {
-        var node = $('<p class="answer">' + answers[i] + '</p>');
-        $('body').append(node.hide().fadeIn(100));
-    }
 }
 
 function askQuestion() {
-    /* Ask question here. */
+    $.post('api/question', function(d) {
+        HITId = d.HITId;
+        timer = setInterval(function() {getAnswers();}, 5000);
+    });
 }
 
 function getAnswers() {
-    /* Get answers here. */
-    
-    /* Begin testing. */
-    if (answersLimit == 1) {
-        return ['White'];
-    } else {
-        return ['White', 'Pink', 'Red', 'Orange', 'Brown', 'Yellow', 'Gray', 'Green', 'Cyan', 'Blue'];
-    }
-    /* End testing. */
+    $.get('api/answers', function(d) {
+        if (d.answers.length == answersLimit) {
+            clearInterval(timer);
+        }
+        for (var i = $('.answer').length; i < d.answers.length; i++) {
+            var node = $('<p class="answer">' + d.answers[i] + '</p>');
+            $('body').append(node.hide().fadeIn(100));
+        }
+    });
 }

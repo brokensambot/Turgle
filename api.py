@@ -25,6 +25,7 @@
 from boto.mturk.question import ExternalQuestion
 from boto.mturk.connection import MTurkConnection
 from google.appengine.ext.webapp.util import run_wsgi_app
+from django.utils import simplejson
 from google.appengine.ext import webapp
 
 class QuestionHandler(webapp.RequestHandler):
@@ -33,11 +34,13 @@ class QuestionHandler(webapp.RequestHandler):
         self.error(404)
     
     def post(self):
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(simplejson.dumps({'HITId': 'GBHZVQX3EHXZ2AYDY2T0'}, indent=4))
 
 class AnswersHandler(webapp.RequestHandler):
     def get(self):
-        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(simplejson.dumps({'answers': ['Red', 'Green', 'Blue']}, indent=4))
     
     # This URL should not handle POST requests.
     def post(self):
