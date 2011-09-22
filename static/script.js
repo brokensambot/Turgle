@@ -21,7 +21,7 @@
 //
 
 var answersLimit;
-var HITId;
+var questionId;
 var timer;
 
 $(document).ready(function() {
@@ -98,16 +98,17 @@ function fillSecret(e) {
 function startSearch(e) {
     clearInterval(timer);
     $('.answer').fadeOut(100, function() {$(this).remove();});
-    if (e.target == $('#lucky')[0])
+    if (e.target == $('#lucky')[0]) {
         answersLimit = 1;
-    else
+    } else {
         answersLimit = 10;
+    }
     askQuestion();
 }
 
 function askQuestion() {
     $.post('api/question', function(d) {
-        HITId = d.HITId;
+        questionId = d.questionId;
         timer = setInterval(function() {getAnswers();}, 5000);
     });
 }

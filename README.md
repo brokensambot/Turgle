@@ -18,7 +18,7 @@ Parameters:
 
 Response:  
 ```
-{"HITId": "GBHZVQX3EHXZ2AYDY2T0"}
+{"questionId": 12345}
 ```
 
 ### Get Answers
@@ -30,7 +30,7 @@ Parameters:
 
 + **accessKey** - (required) Your Amazon Web Services access key.
 + **secretKey** - (required) Your Amazon Web Services secret key.
-+ **HITId** - (required) The HIT Id associated with the question that was asked (only valid for questions asked via the Turgle API).
++ **questionId** - (required) The questionId associated with the question you're interested in.
 
 Response:  
 ```

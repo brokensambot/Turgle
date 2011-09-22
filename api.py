@@ -35,7 +35,7 @@ class QuestionHandler(webapp.RequestHandler):
     
     def post(self):
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(simplejson.dumps({'HITId': 'GBHZVQX3EHXZ2AYDY2T0'}, indent=4))
+        self.response.out.write(simplejson.dumps({'questionId': 12345}, indent=4))
 
 class AnswersHandler(webapp.RequestHandler):
     def get(self):
