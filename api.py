@@ -43,9 +43,9 @@ class QuestionHandler(webapp.RequestHandler):
         secretKey = self.request.get(argument_name='secretKey', default_value=None)
         answers = self.request.get(argument_name='answers', default_value=None)
         text = self.request.get(argument_name='text', default_value=None)
-        
         if accessKey == None or secretKey == None or answers == None or text == None:
             self.error(400)
+            return
         
         question = Question(text=text)
         question.put()
@@ -53,7 +53,7 @@ class QuestionHandler(webapp.RequestHandler):
         # FIXME: Send the question to Mechanical Turk.
         
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(simplejson.dumps({'questionId': 1}, indent=4))
+        self.response.out.write(simplejson.dumps({'questionId': question.key().id()}, indent=4))
 
 class AnswersHandler(webapp.RequestHandler):
     def get(self):
