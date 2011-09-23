@@ -25,8 +25,10 @@
 from google.appengine.ext import db
 from boto.mturk.question import ExternalQuestion
 from boto.mturk.connection import MTurkConnection
+import os
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson
+from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 
 class Question(db.Model):
@@ -39,11 +41,11 @@ class QuestionHandler(webapp.RequestHandler):
         self.error(405)
     
     def post(self):
-        accessKey = self.request.get(argument_name='accessKey', default_value=None)
-        secretKey = self.request.get(argument_name='secretKey', default_value=None)
+        access_key = self.request.get(argument_name='accessKey', default_value=None)
+        secret_key = self.request.get(argument_name='secretKey', default_value=None)
         answers = self.request.get(argument_name='answers', default_value=None)
         text = self.request.get(argument_name='text', default_value=None)
-        if accessKey == None or secretKey == None or answers == None or text == None:
+        if access_key == None or secret_key == None or answers == None or text == None:
             self.error(400)
             return
         
@@ -68,9 +70,19 @@ class AnswersHandler(webapp.RequestHandler):
 
 class HITHandler(webapp.RequestHandler):
     def get(self):
-        questionId = self.request.get('questionId')
-    
-    # FIXME: Serve the HIT to Mechanical Turk.
+        question_id = self.request.get(argument_name='questionId', default_value=None)
+        if question_id == None:
+            self.error(400)
+            return
+        
+        question = Question.get_by_id(ids=int(question_id))
+        if question == None:
+            self.error(404)
+            return
+        
+        path = os.path.join(os.path.dirname(__file__), 'templates')
+        path = os.path.join(path, 'hit.html')
+        self.response.out.write(template.render(path, {'text': question.text}))
     
     # This URL should not handle POST requests.
     def post(self):

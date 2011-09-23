@@ -27,12 +27,12 @@ api_version: 1
 
 handlers:
 - url: /
-  static_files: static/app.html
-  upload: static/app.html
+  static_files: static/index.html
+  upload: static/index.html
 
 - url: /index\.html
-  static_files: static/app.html
-  upload: static/app.html
+  static_files: static/index.html
+  upload: static/index.html
 
 - url: /(.*\.png)
   static_files: static/\1
