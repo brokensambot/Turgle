@@ -26,30 +26,25 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /humans\.png
-  static_files: static/humans.png
-  upload: static/humans.png
-
 - url: /
-  static_files: static/index.html
-  upload: static/index.html
+  static_files: static/app.html
+  upload: static/app.html
 
 - url: /index\.html
-  static_files: static/index.html
-  upload: static/index.html
+  static_files: static/app.html
+  upload: static/app.html
 
-- url: /style\.css
-  static_files: static/style.css
-  upload: static/style.css
+- url: /(.*\.png)
+  static_files: static/\1
+  upload: static/(.*\.png)
 
-- url: /script\.js
-  static_files: static/script.js
-  upload: static/script.js
+- url: /(.*\.css)
+  static_files: static/\1
+  upload: static/(.*\.css)
 
-- url: /(light|dark)-gear\.png
-  static_files: static/\1-gear.png
-  upload: static/(light|dark)-gear.png
+- url: /(.*\.js)
+  static_files: static/\1
+  upload: static/(.*\.js)
 
-- url: /api/(question|answers)
+- url: /api/(question|answers|hit)
   script: api.py
-  secure: optional
