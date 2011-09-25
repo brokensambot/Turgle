@@ -117,7 +117,11 @@ function askQuestion() {
 }
 
 function getAnswers() {
-    $.get('api/answers', function(d) {
+    var url = 'api/answers';
+    url += '?accessKey=' + encodeURIComponent($('#access').val());
+    url += '&secretKey=' + encodeURIComponent($('#secret').val());
+    url += '&questionId=' + questionId;
+    $.get(url, function(d) {
         if (d.answers.length == answersLimit) {
             clearInterval(timer);
         }

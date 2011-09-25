@@ -81,10 +81,36 @@ class QuestionHandler(webapp.RequestHandler):
 
 class AnswersHandler(webapp.RequestHandler):
     def get(self):
-        # FIXME: Get the answers from Mechanical Turk.
+        access_key = self.request.get(argument_name='accessKey', default_value=None)
+        secret_key = self.request.get(argument_name='secretKey', default_value=None)
+        question_id = self.request.get(argument_name='questionId', default_value=None)
+        if access_key == None or secret_key == None or question_id == None:
+            self.error(400)
+            return
+        
+        entity = Question.get_by_id(ids=int(question_id))
+        if entity == None:
+            self.error(404)
+            return
+        
+        connection = MTurkConnection(aws_access_key_id=access_key,
+                                     aws_secret_access_key=secret_key,
+                                     host='mechanicalturk.sandbox.amazonaws.com')
+        assignment_result_set = connection.get_assignments(hit_id=entity.hit_id)
+        answers = []
+        try:
+            for assignment in assignment_result_set:
+                for answer_result_set in assignment.answers:
+                    for answer in answer_result_set:
+                        for field in answer.fields:
+                            if field[0] == 'text':
+                                answers.append(field[1])
+        except:
+            self.error(500)
+            return
         
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(simplejson.dumps({'answers': ['Red', 'Green', 'Blue']}, indent=4))
+        self.response.out.write(simplejson.dumps({'answers': answers}, indent=4))
     
     # This URL should not handle POST requests.
     def post(self):
@@ -97,14 +123,14 @@ class HITHandler(webapp.RequestHandler):
             self.error(400)
             return
         
-        question = Question.get_by_id(ids=int(question_id))
-        if question == None:
+        entity = Question.get_by_id(ids=int(question_id))
+        if entity == None:
             self.error(404)
             return
         
         path = os.path.join(os.path.dirname(__file__), 'templates')
         path = os.path.join(path, 'hit.html')
-        self.response.out.write(template.render(path, {'text': question.text}))
+        self.response.out.write(template.render(path, {'text': entity.text}))
     
     # This URL should not handle POST requests.
     def post(self):
