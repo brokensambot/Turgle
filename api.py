@@ -56,7 +56,7 @@ class QuestionHandler(webapp.RequestHandler):
         
         connection = MTurkConnection(aws_access_key_id=access_key,
                                      aws_secret_access_key=secret_key,
-                                     host='mechanicalturk.sandbox.amazonaws.com')
+                                     host='mechanicalturk.amazonaws.com')
         question = ExternalQuestion('http://www.turgleapi.com/api/hit?questionId=' + str(entity.key().id()),
                                     300)
         result_set = connection.create_hit(question=question,
@@ -95,7 +95,7 @@ class AnswersHandler(webapp.RequestHandler):
         
         connection = MTurkConnection(aws_access_key_id=access_key,
                                      aws_secret_access_key=secret_key,
-                                     host='mechanicalturk.sandbox.amazonaws.com')
+                                     host='mechanicalturk.amazonaws.com')
         assignment_result_set = connection.get_assignments(hit_id=entity.hit_id)
         answers = []
         try:
