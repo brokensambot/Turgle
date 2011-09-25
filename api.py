@@ -29,11 +29,13 @@ import os
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson
 from google.appengine.ext.webapp import template
+from datetime import timedelta
 from google.appengine.ext import webapp
 
 class Question(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
     text = db.TextProperty()
+    hit_id = db.StringProperty()
 
 class QuestionHandler(webapp.RequestHandler):
     # This URL should not handle GET requests.
@@ -43,19 +45,39 @@ class QuestionHandler(webapp.RequestHandler):
     def post(self):
         access_key = self.request.get(argument_name='accessKey', default_value=None)
         secret_key = self.request.get(argument_name='secretKey', default_value=None)
-        answers = self.request.get(argument_name='answers', default_value=None)
+        answers_limit = self.request.get(argument_name='answersLimit', default_value=None)
         text = self.request.get(argument_name='text', default_value=None)
-        if access_key == None or secret_key == None or answers == None or text == None:
+        if access_key == None or secret_key == None or answers_limit == None or text == None:
             self.error(400)
             return
         
-        question = Question(text=text)
-        question.put()
+        entity = Question(text=text)
+        entity.put()
         
-        # FIXME: Send the question to Mechanical Turk.
+        connection = MTurkConnection(aws_access_key_id=access_key,
+                                     aws_secret_access_key=secret_key,
+                                     host='mechanicalturk.sandbox.amazonaws.com')
+        question = ExternalQuestion('http://www.turgleapi.com/api/hit?questionId=' + str(entity.key().id()),
+                                    300)
+        result_set = connection.create_hit(question=question,
+                                           lifetime=timedelta(minutes=90),
+                                           max_assignments=answers_limit,
+                                           title='Answer A Simple Question',
+                                           description='Can you answer a simple question for me?',
+                                           keywords='question, simple',
+                                           reward=0.01,
+                                           duration=timedelta(minutes=9),
+                                           approval_delay=timedelta(days=3))
+        try:
+            for hit in result_set:
+                entity.hit_id = hit.HITId
+                entity.put()
+        except:
+            self.error(500)
+            return
         
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(simplejson.dumps({'questionId': question.key().id()}, indent=4))
+        self.response.out.write(simplejson.dumps({'questionId': entity.key().id()}, indent=4))
 
 class AnswersHandler(webapp.RequestHandler):
     def get(self):

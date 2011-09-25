@@ -109,7 +109,7 @@ function startSearch(e) {
 function askQuestion() {
     $.post('api/question', {accessKey: $('#access').val(),
                             secretKey: $('#secret').val(),
-                            answers: answersLimit,
+                            answersLimit: answersLimit,
                             text: $('#question').val()}, function(d) {
         questionId = d.questionId;
         timer = setInterval(function() {getAnswers();}, 5000);

@@ -29,6 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 color: #2d2d2d;
                 font-family: sans-serif;
                 font-size: 18px;
+                margin: 0px;
             }
             
             p {
@@ -61,6 +62,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             }
             
             #button {
+                margin-bottom: 15px;
                 text-align: center;
             }
             
@@ -73,6 +75,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 font-weight: bold;
                 font-size: 12px;
                 height: 28px;
+                visibility: hidden;
             }
             
             #submit:hover {
@@ -86,11 +89,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </head>
     <body>
         <p>{{ text }}</p>
-        <form method="post">
+        <form id="form" method="post">
             <input name="assignmentId" type="hidden" />
             <input name="hitId" type="hidden" />
             <input name="workerId" type="hidden" />
-            <textarea cols="0" name="answer" rows="0"></textarea>
+            <textarea cols="0" name="text" rows="0"></textarea>
             <div id="button">
                 <input id="submit" type="submit" value="Submit" />
             </div>
@@ -98,26 +101,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         <script type="text/javascript">
             var assignmentId = $.url().param('assignmentId');
             if (assignmentId != null) {
-                $('input[name=assignmentId]')[0].val(assignmentId);
+                $('input[name=assignmentId]').val(assignmentId);
             }
             
             var hitId = $.url().param('hitId');
             if (hitId != null) {
-                $('input[name=hitId]')[0].val(hitId);
+                $('input[name=hitId]').val(hitId);
             }
             
             var workerId = $.url().param('workerId');
             if (workerId != null) {
-                $('input[name=workerId]')[0].val(workerId);
+                $('input[name=workerId]').val(workerId);
             }
             
             var turkSubmitTo = $.url().param('turkSubmitTo');
             if (turkSubmitTo != null) {
-                $('form')[0].attr('action', decodeURIComponent(turkSubmitTo) + '/mturk/externalSubmit');
+                $('#form').attr('action', decodeURIComponent(turkSubmitTo) + '/mturk/externalSubmit');
             }
             
-            if (assignmentId == 'ASSIGNMENT_ID_NOT_AVAILABLE' || assignmentId == null) {
-                $('#submit').css('visibility', 'hidden');
+            if (assignmentId != null && assignmentId != 'ASSIGNMENT_ID_NOT_AVAILABLE') {
+                $('#submit').css('visibility', 'visible');
             }
         </script>
     </body>

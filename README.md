@@ -13,7 +13,7 @@ Parameters:
 
 + **accessKey** - (required) Your Amazon Web Services access key.
 + **secretKey** - (required) Your Amazon Web Services secret key.
-+ **answers** - (required) The number of answers you require (not guaranteed to be unique).
++ **answersLimit** - (required) The number of answers you require (not guaranteed to be unique).
 + **text** - (required) The question being asked.
 
 Response:  
