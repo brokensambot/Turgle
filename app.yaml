@@ -34,17 +34,9 @@ handlers:
   static_files: static/index.html
   upload: static/index.html
 
-- url: /(.*\.png)
+- url: /(.*\.(css|gif|js|png))
   static_files: static/\1
-  upload: static/(.*\.png)
-
-- url: /(.*\.css)
-  static_files: static/\1
-  upload: static/(.*\.css)
-
-- url: /(.*\.js)
-  static_files: static/\1
-  upload: static/(.*\.js)
+  upload: static/(.*\.(css|gif|js|png))
 
 - url: /api/(question|answers|hit)
   script: api.py

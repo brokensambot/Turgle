@@ -127,7 +127,7 @@ function getAnswers() {
         }
         for (var i = $('.answer').length; i < d.answers.length; i++) {
             var node = $('<p class="answer">' + d.answers[i] + '</p>');
-            $('body').append(node.hide().fadeIn(100));
+            $('#answers').append(node.hide().fadeIn(100));
         }
     });
 }

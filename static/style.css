@@ -152,3 +152,15 @@ h1 {
     margin: 0px auto 30px auto;
     width: 600px;
 }
+
+#indicator {
+    background-image: url('indicator.gif');
+    background-repeat: no-repeat;
+    font-size: 18px;
+    height: 32px;
+    line-height: 32px;
+    margin: 0px auto;
+    padding-left: 37px;
+    visibility: hidden;
+    width: 90px;
+}
