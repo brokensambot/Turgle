@@ -113,6 +113,7 @@ function askQuestion() {
                             text: $('#question').val()}, function(d) {
         questionId = d.questionId;
         timer = setInterval(function() {getAnswers();}, 5000);
+        $('#indicator').css({'visibility':'visible'});
     });
 }
 
@@ -124,6 +125,7 @@ function getAnswers() {
     $.get(url, function(d) {
         if (d.answers.length == answersLimit) {
             clearInterval(timer);
+            $('#indicator').css({'visibility':'hidden'});
         }
         for (var i = $('.answer').length; i < d.answers.length; i++) {
             var node = $('<p class="answer">' + d.answers[i] + '</p>');
