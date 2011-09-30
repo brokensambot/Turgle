@@ -107,14 +107,17 @@ function startSearch(e) {
 }
 
 function askQuestion() {
+    $('#indicator').css({'visibility':'visible'});
     $.post('api/question', {accessKey: $('#access').val(),
                             secretKey: $('#secret').val(),
                             answersLimit: answersLimit,
                             text: $('#question').val()}, function(d) {
         questionId = d.questionId;
         timer = setInterval(function() {getAnswers();}, 5000);
-        $('#indicator').css({'visibility':'visible'});
-    });
+    })
+    .error(function() {
+        $('#indicator').css({'visibility':'hidden'});
+        alert("Unable to subimt\nPlease check your Amazon Web Services credentials and try again.");});
 }
 
 function getAnswers() {
