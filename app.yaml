@@ -38,5 +38,5 @@ handlers:
   static_files: static/\1
   upload: static/(.*\.(css|gif|js|png))
 
-- url: /api/(question|answers|hit)
+- url: /api/(question|answers|hit|image)
   script: api.py

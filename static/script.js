@@ -117,7 +117,7 @@ function askQuestion() {
     })
     .error(function() {
         $('#indicator').css({'visibility':'hidden'});
-        alert("Unable to subimt\nPlease check your Amazon Web Services credentials and try again.");});
+        alert("Unable to submit\nPlease check your Amazon Web Services credentials and try again.");});
 }
 
 function getAnswers() {

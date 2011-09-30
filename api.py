@@ -34,6 +34,7 @@ from google.appengine.ext import webapp
 
 class Question(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
+    image = db.BlobProperty()
     text = db.TextProperty()
     hit_id = db.StringProperty()
 
@@ -46,12 +47,16 @@ class QuestionHandler(webapp.RequestHandler):
         access_key = self.request.get(argument_name='accessKey', default_value=None)
         secret_key = self.request.get(argument_name='secretKey', default_value=None)
         answers_limit = self.request.get(argument_name='answersLimit', default_value=None)
+        image = self.request.get(argument_name='image', default_value=None)
         text = self.request.get(argument_name='text', default_value=None)
         if access_key == None or secret_key == None or answers_limit == None or text == None:
             self.error(400)
             return
         
-        entity = Question(text=text)
+        if image == None:
+            entity = Question(text=text)
+        else:
+            entity = Question(image=image, text=text)
         entity.put()
         
         connection = MTurkConnection(aws_access_key_id=access_key,
@@ -128,9 +133,38 @@ class HITHandler(webapp.RequestHandler):
             self.error(404)
             return
         
+        template_values = {
+            'text': entity.text
+        }
+        # FIXME: Implement full image handling.
+        
         path = os.path.join(os.path.dirname(__file__), 'templates')
         path = os.path.join(path, 'hit.html')
-        self.response.out.write(template.render(path, {'text': entity.text}))
+        self.response.out.write(template.render(path, template_values))
+    
+    # This URL should not handle POST requests.
+    def post(self):
+        self.error(405)
+
+class ImageHandler(webapp.RequestHandler):
+    def get(self):
+        question_id = self.request.get(argument_name='questionId', default_value=None)
+        if question_id == None:
+            self.error(400)
+            return
+        
+        entity = Question.get_by_id(ids=int(question_id))
+        if entity == None:
+            self.error(404)
+            return
+        
+        image = entity.image
+        if image == None:
+            self.error(404)
+            return
+        
+        self.response.headers['Content-Type'] = 'image/jpeg'
+        self.response.out.write(image)
     
     # This URL should not handle POST requests.
     def post(self):
@@ -139,7 +173,8 @@ class HITHandler(webapp.RequestHandler):
 def main():
     run_wsgi_app(webapp.WSGIApplication([('/api/question', QuestionHandler),
                                          ('/api/answers', AnswersHandler),
-                                         ('/api/hit', HITHandler)],
+                                         ('/api/hit', HITHandler),
+                                         ('/api/image', ImageHandler)],
                                         debug=True))
 
 if __name__ == '__main__':
