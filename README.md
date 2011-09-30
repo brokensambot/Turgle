@@ -14,7 +14,8 @@ Parameters:
 + **accessKey** - (required) Your Amazon Web Services access key.
 + **secretKey** - (required) Your Amazon Web Services secret key.
 + **answersLimit** - (required) The number of answers you require (not guaranteed to be unique).
-+ **text** - (required) The question being asked.
++ **image** - (optional) An image related to the question you're asking.
++ **text** - (required) The question you're asking.
 
 Response:  
 ```
