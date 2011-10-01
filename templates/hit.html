@@ -32,6 +32,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 margin: 0px;
             }
             
+            img {
+                display: block;
+                height: 440px;
+                margin: 15px auto 0px auto;
+                width: 440px;
+            }
+            
             p {
                 margin: 15px auto;
                 text-align: center;
@@ -88,7 +95,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         <title>Turgle</title>
     </head>
     <body>
-        <p>{{ text }}</p>
+        {% if entity.image %}
+        <img alt="An image related to the question being asked" src="../api/image?questionId={{ entity.key.id }}" />
+        {% endif %}
+        <p>{{ entity.text }}</p>
         <form id="form" method="post">
             <input name="assignmentId" type="hidden" />
             <input name="hitId" type="hidden" />

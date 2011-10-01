@@ -6,7 +6,7 @@ Sometimes you have questions that only other humans can answer. What if asking t
 
 ### Ask a Question
 
-URL: https://www.turgleapi.com/api/question  
+URL: http://www.turgleapi.com/api/question  
 Format: JSON  
 Method: POST  
 Parameters:
@@ -14,7 +14,7 @@ Parameters:
 + **accessKey** - (required) Your Amazon Web Services access key.
 + **secretKey** - (required) Your Amazon Web Services secret key.
 + **answersLimit** - (required) The number of answers you require (not guaranteed to be unique).
-+ **image** - (optional) An image related to the question you're asking (only jpeg image compression is supported).
++ **image** - (optional) An image related to the question you're asking (bmp, gif, ico, jpeg, png, tiff, and webp image data formats are accepted).
 + **text** - (required) The question you're asking.
 
 Response:  
@@ -24,7 +24,7 @@ Response:
 
 ### Get Answers
 
-URL: https://www.turgleapi.com/api/answers  
+URL: http://www.turgleapi.com/api/answers  
 Format: JSON  
 Method: GET  
 Parameters:

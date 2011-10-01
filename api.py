@@ -24,6 +24,7 @@
 
 from google.appengine.ext import db
 from boto.mturk.question import ExternalQuestion
+from google.appengine.api import images
 from boto.mturk.connection import MTurkConnection
 import os
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -56,14 +57,17 @@ class QuestionHandler(webapp.RequestHandler):
         if image == None:
             entity = Question(text=text)
         else:
-            entity = Question(image=image, text=text)
+            raw_image = images.Image(image_data=image)
+            raw_image.resize(height=440, width=440)
+            hit_image = raw_image.execute_transforms(output_encoding=images.PNG)
+            entity = Question(image=hit_image, text=text)
         entity.put()
         
         connection = MTurkConnection(aws_access_key_id=access_key,
                                      aws_secret_access_key=secret_key,
                                      host='mechanicalturk.amazonaws.com')
         question = ExternalQuestion('http://www.turgleapi.com/api/hit?questionId=' + str(entity.key().id()),
-                                    300)
+                                    880)
         result_set = connection.create_hit(question=question,
                                            lifetime=timedelta(minutes=90),
                                            max_assignments=answers_limit,
@@ -133,14 +137,9 @@ class HITHandler(webapp.RequestHandler):
             self.error(404)
             return
         
-        template_values = {
-            'text': entity.text
-        }
-        # FIXME: Implement full image handling.
-        
         path = os.path.join(os.path.dirname(__file__), 'templates')
         path = os.path.join(path, 'hit.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render(path, {'entity': entity}))
     
     # This URL should not handle POST requests.
     def post(self):
@@ -163,7 +162,7 @@ class ImageHandler(webapp.RequestHandler):
             self.error(404)
             return
         
-        self.response.headers['Content-Type'] = 'image/jpeg'
+        self.response.headers['Content-Type'] = 'image/png'
         self.response.out.write(image)
     
     # This URL should not handle POST requests.
