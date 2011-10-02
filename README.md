@@ -6,7 +6,7 @@ Sometimes you have questions that only other humans can answer. What if asking t
 
 ### Ask a Question
 
-URL: http://www.turgleapi.com/api/question  
+URL: https://www.turgleapi.appspot.com/api/question  
 Format: JSON  
 Method: POST  
 Parameters:
@@ -24,7 +24,7 @@ Response:
 
 ### Get Answers
 
-URL: http://www.turgleapi.com/api/answers  
+URL: https://www.turgleapi.appspot.com/api/answers  
 Format: JSON  
 Method: GET  
 Parameters:
